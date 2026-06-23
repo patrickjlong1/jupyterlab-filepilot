@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-jupyter-builder>=0.5"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jupyterlab_filepilot"
+version = "0.1.0"
+description = "A secure, Windows-Explorer-style file explorer for JupyterLab and JupyterHub."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+authors = [{ name = "Pat", email = "you@example.com" }]
+keywords = ["Jupyter", "JupyterLab", "JupyterLab4", "JupyterHub", "file-explorer"]
+classifiers = [
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab",
+    "Framework :: Jupyter :: JupyterLab :: 4",
+    "Framework :: Jupyter :: JupyterLab :: Extensions",
+    "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt",
+    "License :: OSI Approved :: BSD License",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = ["jupyter_server>=2.0.0,<3"]
+
+[project.urls]
+Homepage = "https://github.com/patlongcodes/jupyterlab-filepilot"
+Source = "https://github.com/patlongcodes/jupyterlab-filepilot"
+Issues = "https://github.com/patlongcodes/jupyterlab-filepilot/issues"
+
+[tool.hatch.build.targets.sdist]
+artifacts = ["jupyterlab_filepilot/labextension"]
+exclude = [".github", "binder", "node_modules"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"jupyterlab_filepilot/labextension" = "share/jupyter/labextensions/jupyterlab-filepilot"
+"install.json" = "share/jupyter/labextensions/jupyterlab-filepilot/install.json"
+"jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
+
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = ["hatch-jupyter-builder>=0.5"]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = [
+    "jupyterlab_filepilot/labextension/static/style.js",
+    "jupyterlab_filepilot/labextension/package.json",
+]
+skip-if-exists = ["jupyterlab_filepilot/labextension/static/style.js"]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+build_cmd = "build:prod"
+npm = ["jlpm"]
+
+[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
+build_cmd = "install:extension"
+npm = ["jlpm"]
+source_dir = "src"
+build_dir = "jupyterlab_filepilot/labextension"

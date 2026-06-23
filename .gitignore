@@ -1,0 +1,16 @@
+node_modules/
+lib/
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+
+# Python / build
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+build/
+dist/
+*.egg-info/
+
+# Generated prebuilt labextension
+jupyterlab_filepilot/labextension/

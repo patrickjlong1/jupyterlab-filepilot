@@ -1,0 +1,430 @@
+/*
+ * FilePilot — a Windows-File-Explorer-style skin.
+ *
+ * The explorer is rendered as its own self-contained "application surface"
+ * (like a desktop window), so it keeps a crisp light Explorer look regardless
+ * of the surrounding JupyterLab theme. A dark variant is provided for users
+ * whose OS prefers dark.
+ */
+
+.fp-widget {
+  overflow: hidden;
+}
+
+.fp-app {
+  --fp-bg: #ffffff;
+  --fp-fg: #1f1f1f;
+  --fp-muted: #6b7280;
+  --fp-line: #e5e7eb;
+  --fp-band: #f7f8fa;
+  --fp-toolbar: #f3f4f6;
+  --fp-accent: #0067c0;
+  --fp-sel: #cfe8ff;
+  --fp-sel-border: #99d1ff;
+  --fp-hover: #eef6ff;
+  --fp-folder: #f6c544;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--fp-bg);
+  color: var(--fp-fg);
+  font-family: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial,
+    sans-serif;
+  font-size: 13px;
+  outline: none;
+  user-select: none;
+}
+
+/* ---------- command bar ---------- */
+.fp-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  background: var(--fp-toolbar);
+  border-bottom: 1px solid var(--fp-line);
+}
+
+.fp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--fp-fg);
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.fp-btn:hover:not(:disabled) {
+  background: #e8eaed;
+  border-color: #d8dadd;
+}
+.fp-btn:active:not(:disabled) {
+  background: #dfe1e4;
+}
+.fp-btn:disabled {
+  color: #b3b7bd;
+  cursor: default;
+}
+.fp-btn-ico {
+  font-size: 13px;
+  line-height: 1;
+}
+.fp-btn-danger:hover:not(:disabled) {
+  background: #fde7e7;
+  border-color: #f3c0c0;
+}
+
+.fp-sep {
+  width: 1px;
+  height: 20px;
+  margin: 0 6px;
+  background: var(--fp-line);
+}
+.fp-spacer {
+  flex: 1 1 auto;
+}
+
+.fp-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 6px;
+  color: var(--fp-muted);
+  cursor: pointer;
+}
+
+.fp-search {
+  width: 200px;
+  height: 26px;
+  padding: 0 9px;
+  border: 1px solid var(--fp-line);
+  border-radius: 4px;
+  background: #fff;
+  font: inherit;
+  color: var(--fp-fg);
+}
+.fp-search:focus {
+  outline: none;
+  border-color: var(--fp-accent);
+}
+
+/* ---------- navigation / address bar ---------- */
+.fp-navbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--fp-line);
+  background: var(--fp-bg);
+}
+.fp-navbtn {
+  width: 28px;
+  height: 26px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #3b4046;
+  font-size: 15px;
+  cursor: pointer;
+}
+.fp-navbtn:hover:not(:disabled) {
+  background: #eceef0;
+}
+.fp-navbtn:disabled {
+  color: #c4c8ce;
+  cursor: default;
+}
+
+.fp-address {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  height: 28px;
+  margin-left: 4px;
+  padding: 0 8px;
+  border: 1px solid var(--fp-line);
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.fp-address-edit {
+  flex: 1 1 auto;
+  height: 28px;
+  margin-left: 4px;
+  padding: 0 8px;
+  border: 1px solid var(--fp-accent);
+  border-radius: 4px;
+  font: inherit;
+  color: var(--fp-fg);
+}
+.fp-crumb {
+  padding: 2px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.fp-crumb:hover {
+  background: var(--fp-hover);
+}
+.fp-crumb-root {
+  font-weight: 600;
+}
+.fp-crumb-sep {
+  color: var(--fp-muted);
+  padding: 0 1px;
+}
+
+/* ---------- body ---------- */
+.fp-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.fp-nav {
+  width: 210px;
+  flex: 0 0 auto;
+  padding: 8px 6px;
+  border-right: 1px solid var(--fp-line);
+  background: var(--fp-band);
+  overflow-y: auto;
+}
+.fp-nav-section {
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--fp-muted);
+}
+.fp-navitem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fp-navitem:hover {
+  background: var(--fp-hover);
+}
+.fp-navitem-active {
+  background: var(--fp-sel);
+}
+.fp-navitem-ico {
+  font-size: 14px;
+}
+
+.fp-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: auto;
+  background: var(--fp-bg);
+}
+
+/* ---------- details table ---------- */
+.fp-table {
+  display: flex;
+  flex-direction: column;
+  min-width: 560px;
+}
+.fp-head {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--fp-bg);
+  border-bottom: 1px solid var(--fp-line);
+}
+.fp-head .fp-col {
+  padding: 7px 8px;
+  font-weight: 600;
+  color: #3b4046;
+  cursor: pointer;
+  border-right: 1px solid var(--fp-line);
+}
+.fp-head .fp-col:hover {
+  background: var(--fp-band);
+}
+
+.fp-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.fp-row {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  border: 1px solid transparent;
+  cursor: default;
+}
+.fp-row:hover {
+  background: var(--fp-hover);
+}
+.fp-row-selected,
+.fp-row-selected:hover {
+  background: var(--fp-sel);
+  border-color: var(--fp-sel-border);
+}
+.fp-row-hidden .fp-name {
+  opacity: 0.6;
+}
+
+.fp-col {
+  padding: 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fp-col-name {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.fp-col-date {
+  flex: 0 0 165px;
+  color: #3b4046;
+}
+.fp-col-type {
+  flex: 0 0 120px;
+  color: #3b4046;
+}
+.fp-col-size {
+  flex: 0 0 90px;
+  text-align: right;
+  color: #3b4046;
+}
+
+.fp-glyph {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+.fp-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fp-link-badge {
+  flex: 0 0 auto;
+  margin-left: 6px;
+  padding: 0 5px;
+  font-size: 10px;
+  line-height: 15px;
+  color: var(--fp-accent);
+  border: 1px solid var(--fp-sel-border);
+  border-radius: 8px;
+}
+
+.fp-empty {
+  padding: 24px 16px;
+  color: var(--fp-muted);
+}
+.fp-error {
+  color: #b42318;
+  white-space: pre-wrap;
+}
+
+/* ---------- status bar ---------- */
+.fp-status {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 26px;
+  padding: 0 10px;
+  border-top: 1px solid var(--fp-line);
+  background: var(--fp-toolbar);
+  color: var(--fp-muted);
+  font-size: 12px;
+}
+.fp-status-ro {
+  color: #b42318;
+  font-weight: 600;
+}
+.fp-status-path {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 50%;
+}
+
+/* ---------- context menu ---------- */
+.fp-menu {
+  position: fixed;
+  z-index: 1000;
+  min-width: 180px;
+  padding: 4px;
+  background: #fff;
+  border: 1px solid #d6d9dd;
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+}
+.fp-menu-item {
+  padding: 7px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.fp-menu-item:hover {
+  background: var(--fp-hover);
+}
+.fp-menu-danger {
+  color: #b42318;
+}
+.fp-menu-danger:hover {
+  background: #fde7e7;
+}
+.fp-menu-disabled {
+  color: #b9bdc3;
+  pointer-events: none;
+}
+.fp-menu-sep {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--fp-line);
+}
+
+/* ---------- dark adaptation ---------- */
+@media (prefers-color-scheme: dark) {
+  .fp-app {
+    --fp-bg: #202124;
+    --fp-fg: #e4e6eb;
+    --fp-muted: #9aa0a6;
+    --fp-line: #3a3c40;
+    --fp-band: #26282b;
+    --fp-toolbar: #2a2c2f;
+    --fp-accent: #4ea1ff;
+    --fp-sel: #2d4a66;
+    --fp-sel-border: #3f6e9e;
+    --fp-hover: #2c3136;
+  }
+  .fp-search,
+  .fp-address {
+    background: #2a2c2f;
+  }
+  .fp-menu {
+    background: #2a2c2f;
+    border-color: #3a3c40;
+  }
+  .fp-btn:hover:not(:disabled) {
+    background: #34373b;
+    border-color: #3f4347;
+  }
+  .fp-head .fp-col,
+  .fp-col-date,
+  .fp-col-type,
+  .fp-col-size {
+    color: #c8ccd2;
+  }
+}
