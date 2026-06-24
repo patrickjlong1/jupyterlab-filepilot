@@ -9,7 +9,7 @@ description = "A secure, Windows-Explorer-style file explorer for JupyterLab and
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.8"
-authors = [{ name = "Pat", email = "you@example.com" }]
+authors = [{ name = "Pat Long", email = "patrickjlong1@gmail.com" }]
 keywords = ["Jupyter", "JupyterLab", "JupyterLab4", "JupyterHub", "file-explorer"]
 classifiers = [
     "Framework :: Jupyter",

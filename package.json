@@ -16,8 +16,8 @@
   },
   "license": "BSD-3-Clause",
   "author": {
-    "name": "Pat",
-    "email": "you@example.com"
+    "name": "Pat Long",
+    "email": "patrickjlong1@gmail.com"
   },
   "files": [
     "lib/**/*.{d.ts,js,js.map}",
